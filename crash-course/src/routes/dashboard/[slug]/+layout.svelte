@@ -7,13 +7,8 @@
 	import { Columns2 } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { SIDEBAR_KEYBOARD_SHORTCUT, toggleSidebar } from '$lib/helpers.js';
+	import { authUser } from '../../../stores/auth.store.js';
 	let { data, children }: LayoutProps = $props();
-
-	const isValid = true;
-
-	if (!isValid) {
-		window.location.href = '/';
-	}
 
 	onMount(() => {
 		const handleKeyDown = (event) => {
@@ -77,14 +72,13 @@
 						class="w-full items-center rounded-md transition-colors duration-300 hover:bg-gray-200 md:items-start"
 					>
 						<div
-							class={`flex w-full items-center gap-x-2 p-2 transition-all duration-300 ease-in-out`}
+							class={`flex w-full items-center gap-x-2.5 p-2 transition-all duration-300 ease-in-out`}
 						>
-							<!-- Icon -->
-							<route.Icon class={`item-center size-5 self-center ${derivedState ? "":""} `} />
-<!-- //${$derivedState ? 'w-0 opacity-0' : 'w-auto opacity-100'} -->
-							<!-- Text label -->
+							<div class="w-max">
+								<route.Icon class={`item-center size-5 self-center`} />
+							</div>
 							<li
-								class={`overflow-hidden whitespace-nowrap text-sm font-normal text-blue-950
+								class={`overflow-hidden  text-sm font-normal text-blue-950
 						transition-[width,opacity] duration-300 ease-in-out
 						`}
 							>
@@ -110,8 +104,8 @@
 			</Avatar.Root>
 
 			<div class={`block space-y-1 text-sm font-normal ${$derivedState && 'hidden'}`}>
-				<p class="font-semibold">Nelson Ndukwe</p>
-				<p class="text-xs">Supervisor</p>
+				<p class="font-semibold">{data.user?.name}</p>
+				<p class="text-xs">{data.user?.role}</p>
 			</div>
 		</div>
 	</div>
