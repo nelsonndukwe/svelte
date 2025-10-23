@@ -42,8 +42,8 @@
 </script>
 
 <div class="flex items-center justify-center p-2">
-	<div class="w-full max-w-md rounded-2xl bg-white p-8 transition-all">
-		<h1 class="mb-6 text-center text-2xl font-semibold text-gray-800">Welcome Back 👋</h1>
+	<div class="w-full max-w-md rounded-2xl bg-white dark:bg-background p-4 transition-all">
+		<h1 class="mb-6 text-center text-2xl font-semibold text-gray-800 dark:text-accent">Welcome Back 👋</h1>
 
 		{#if responseState}
 			<p class="mb-4 rounded-md bg-gray-500 px-3 py-2 text-sm">
@@ -59,7 +59,7 @@
 					type="text"
 					placeholder="Full name"
 					bind:value={name}
-					class="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+					class="w-full dark:bg-background-alt rounded-lg border border-gray-300 py-2 pl-10 pr-4 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>
 			</div>
@@ -70,7 +70,7 @@
 					type="email"
 					placeholder="Email address"
 					bind:value={email}
-					class="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+					class="w-full dark:bg-background-alt rounded-lg border border-gray-300 py-2 pl-10 pr-4 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>
 			</div>
@@ -82,7 +82,7 @@
 					type={showPassword ? 'text' : 'password'}
 					placeholder="Password"
 					bind:value={password}
-					class="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+					class="w-full dark:bg-background-alt rounded-lg border border-gray-300 py-2 pl-10 pr-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>
 				<button
@@ -107,7 +107,7 @@
 					type={showConfirmPassword ? 'text' : 'password'}
 					placeholder="Confirm Password"
 					bind:value={confirmPassword}
-					class="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+					class="w-full dark:bg-background-alt rounded-lg border border-gray-300 py-2 pl-10 pr-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>
 				<button

@@ -11,7 +11,7 @@ export const load: LayoutLoad = async ({ params }) => {
 	const matchedUser = users.find((user) => String(user.id) === currentUser);
 
 	if (!matchedUser) {
-		throw c;
+		throw redirect(302, '/');
 	}
 	return {
 		user: matchedUser ?? null,

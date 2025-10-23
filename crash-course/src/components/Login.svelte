@@ -2,8 +2,6 @@
 	import { Eye, EyeOff, Mail, Lock, Loader } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 
-	import { derived, get } from 'svelte/store';
-	import { validUsers } from '../stores/user.store.js';
 	import { authUser, login } from '../stores/auth.store.js';
 
 	let email = $state('');
@@ -34,9 +32,9 @@
 	}
 </script>
 
-<div class="flex items-center justify-center p-2">
-	<div class="w-full max-w-md rounded-2xl bg-white p-8 transition-all">
-		<h1 class="mb-6 text-center text-2xl font-semibold text-gray-800">Welcome Back 👋</h1>
+<div class="flex items-center justify-center  p-2">
+	<div class="w-full max-w-md rounded-2xl bg-white dark:bg-background p-4 transition-all">
+		<h1 class="mb-6 text-center text-2xl font-semibold text-gray-800 dark:text-accent">Welcome Back 👋</h1>
 
 		{#if responseState}
 			<p class="mb-4 rounded-md bg-gray-100 px-3 py-2 text-sm text-gray-600">
@@ -52,7 +50,7 @@
 					type="email"
 					placeholder="Email address"
 					bind:value={email}
-					class="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+					class="w-full rounded-lg border dark:bg-background-alt border-gray-300 py-2 pl-10 pr-4 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>
 			</div>
@@ -64,7 +62,7 @@
 					type={showPassword ? 'text' : 'password'}
 					placeholder="Password"
 					bind:value={password}
-					class="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+					class="w-full rounded-lg border dark:bg-background-alt border-gray-300 py-2 pl-10 pr-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>
 				<button

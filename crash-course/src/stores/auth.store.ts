@@ -81,3 +81,13 @@ export async function logout() {
 	await new Promise((resolve) => setTimeout(resolve, 2000));
 	authUser.set(null);
 }
+
+export const getCurrentUser = () => {
+	const userId = get(authUser);
+
+	if (!userId) return null;
+
+	const user = get(validUsers).find((user) => String(user.id) === userId);
+
+	return user;
+};

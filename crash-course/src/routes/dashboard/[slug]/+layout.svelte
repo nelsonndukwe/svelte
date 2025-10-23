@@ -35,7 +35,7 @@
 
 	const handleLogout = async () => {
 		await logout();
-		goto( "/" );
+		goto('/');
 	};
 
 	const handleThemeToggle = () => {
@@ -47,21 +47,21 @@
 	const routes = getAllRoutes(data.slug);
 </script>
 
-<div class="flex h-screen bg-accent dark:bg-gray-900">
+<div class="bg-accent flex h-screen dark:bg-gray-900">
 	<div
-		class={`relative h-full ${$derivedState ? 'w-[3.2rem]' : 'w-1/5'} 
+		class={`scroll relative h-screen overflow-auto ${$derivedState ? 'w-[3.2rem]' : 'w-1/5'} 
 		 ${$screenSizeState.openMobile ? 'fixed z-50' : 'hidden'} justify-between p-1 shadow-md
 		 transition-all duration-300 ease-in-out md:static md:flex md:flex-col `}
 	>
 		<div
 			onclick={() => toggleSidebar()}
-			class={`relative my-1 dark:border-accent shadow-md flex cursor-pointer flex-row items-center justify-between overflow-hidden rounded-md border 
-	  p-1 transition-all duration-500 ease-in-out
+			class={`dark:border-accent relative my-1 flex cursor-pointer flex-row items-center justify-between overflow-hidden rounded-md border p-1 
+	  shadow-md transition-all duration-500 ease-in-out
 	  ${$derivedState ? 'w-full justify-center' : 'w-full justify-between'}`}
 		>
 			<p
-				class={`text-md  dark:text-white transform font-semibold capitalize
-      text-black transition-all duration-300 ease-in-out
+				class={`text-md  transform font-semibold capitalize text-black
+      transition-all duration-300 ease-in-out dark:text-white
       ${$derivedState ? 'w-0 -translate-x-2 opacity-0' : 'w-auto translate-x-0 opacity-100'}`}
 			>
 				Untilled UI
@@ -69,8 +69,8 @@
 
 			<!-- Short Text (shown when collapsed) -->
 			<p
-				class={`text-md dark:text-white transform text-center font-semibold capitalize
-      text-black transition-all duration-300 ease-in-out
+				class={`text-md transform text-center font-semibold capitalize text-black
+      transition-all duration-300 ease-in-out dark:text-white
       ${$derivedState ? 'w-auto translate-x-0 opacity-100' : 'w-0 translate-x-2 opacity-0'}`}
 			>
 				UI
@@ -84,17 +84,17 @@
 				{#each routes as route (route.title)}
 					<a
 						href={route.href}
-						class="w-full items-center rounded-md transition-colors duration-300 hover:bg-gray-200 dark:hover:bg-gray-600 md:items-start"
+						class="w-full items-center rounded-md transition-colors duration-300 hover:bg-gray-200 md:items-start dark:hover:bg-gray-600"
 					>
 						<div
 							class={`flex w-full items-center gap-x-2.5 p-2 transition-all duration-300 ease-in-out`}
 						>
 							<div class="w-max">
-								<route.Icon class={`item-center size-5 self-center dark:text-accent`} />
+								<route.Icon class={`item-center dark:text-accent size-5 self-center`} />
 							</div>
 							<li
-								class={`dark:text-gray-300 overflow-hidden  text-sm font-normal text-blue-950
-						transition-[width,opacity] duration-300 ease-in-out
+								class={`overflow-hidden text-sm  font-normal text-blue-950 transition-[width,opacity]
+						duration-300 ease-in-out dark:text-gray-300
 						`}
 							>
 								{route.title}
@@ -119,7 +119,9 @@
 							class="flex h-full w-full items-center justify-center overflow-hidden rounded-full border-2 border-transparent"
 						>
 							<Avatar.Image src="/avatar-1.png" alt="@huntabyte" />
-							<Avatar.Fallback class="dark:text-white border-muted border-none text-xs">NN</Avatar.Fallback>
+							<Avatar.Fallback class="border-muted border-none text-xs dark:text-white"
+								>NN</Avatar.Fallback
+							>
 						</div>
 					</Avatar.Root>
 
@@ -137,22 +139,22 @@
 				>
 					<div
 						onclick={handleThemeToggle}
-						class=" flex cursor-pointer flex-row items-center gap-x-2 text-xs hover:text-primary"
+						class=" hover:text-primary flex cursor-pointer flex-row items-center gap-x-2 text-xs"
 					>
-					<div class="relative h-4 w-4">
-						<Sun
-							class={`size-4 absolute inset-0 transition-opacity duration-300 ease-in-out ${
-								$userPreferenceState.theme === 'light' ? 'opacity-100' : 'opacity-0'
-							}`}
-						/>
-						<Moon
-							class={`size-4 absolute inset-0 transition-opacity duration-300 ease-in-out ${
-								$userPreferenceState.theme === 'dark' ? 'opacity-100' : 'opacity-0'
-							}`}
-						/>
-					</div>
-				
-						<p class="text-xs capitalize">{$userPreferenceState.theme} Mode </p>
+						<div class="relative h-4 w-4">
+							<Sun
+								class={`absolute inset-0 size-4 transition-opacity duration-300 ease-in-out ${
+									$userPreferenceState.theme === 'light' ? 'opacity-100' : 'opacity-0'
+								}`}
+							/>
+							<Moon
+								class={`absolute inset-0 size-4 transition-opacity duration-300 ease-in-out ${
+									$userPreferenceState.theme === 'dark' ? 'opacity-100' : 'opacity-0'
+								}`}
+							/>
+						</div>
+
+						<p class="text-xs capitalize">{$userPreferenceState.theme} Mode</p>
 					</div>
 					<Separator.Root class="bg-dark-10 my-2 block h-px" />
 					<div
@@ -162,16 +164,18 @@
 						<LogOut class="size-4 text-red-700" />
 						<p class="">Log out</p>
 					</div>
-
 				</Popover.Content>
 			</Popover.Portal>
 		</Popover.Root>
 	</div>
 
-	<div class="relative mx-2 my-1 w-full rounded-lg bg-white p-1 shadow-md">
-		<button onclick={() => toggleSidebar()} class=" fixed bottom-5 right-5 md:hidden">
-			<Columns2 />
-		</button>
+	<div
+		class="dark:bg-background scroll relative mx-2 h-screen w-full overflow-auto bg-white p-1 shadow-md"
+	>
+			<button onclick={() => toggleSidebar()} class="bg-foreground dark:bg-accent rounded-md size-8 flex justify-center  fixed bottom-5 right-5 md:hidden">
+				<Columns2 class="size-6 text-accent dark:text-foreground self-center"/>
+			</button>
+
 		{@render children()}
 	</div>
 </div>
