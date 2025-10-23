@@ -30,7 +30,7 @@
         loading = false;
 
 		// ✅ Navigate to user dashboard
-		goto(`/dashboard/${user.user?.id}/overview`);
+		goto(`/dashboard/${user.user?.id}`);
 	}
 </script>
 

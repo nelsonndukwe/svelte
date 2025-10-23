@@ -20,7 +20,7 @@ export const getAllRoutes = (
 		{
 			title: 'Overview',
 			Icon: House,
-			href: `/dashboard/${orgId}/overview`
+			href: `/dashboard/${orgId}`
 		},
 		{
 			title: 'Users',

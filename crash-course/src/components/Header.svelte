@@ -4,7 +4,7 @@
 	export let title;
 	export let content: string | undefined;
 
-	const isSignedIn = true; // replace with actual auth
+	const isSignedIn = true;
 
 	// fetch current user
 </script>

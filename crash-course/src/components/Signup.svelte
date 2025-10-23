@@ -37,7 +37,7 @@
 		confirmPassword = '';
 		loading = false;
 
-		goto(`/dashboard/${res.newUser.id}/overview`);
+		goto(`/dashboard/${res.newUser.id}`);
 	}
 </script>
 
