@@ -77,6 +77,7 @@ export async function login(credentials: { email: string; password: string }) {
 	};
 }
 
-export function logout() {
+export async function logout() {
+	await new Promise((resolve) => setTimeout(resolve, 2000));
 	authUser.set(null);
 }
