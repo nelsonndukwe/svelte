@@ -9,7 +9,7 @@
     <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
         <Tabs.Root
             value="sign-in"
-            class="rounded-xl border-muted bg-background-alt shadow-card h-[450px] w-[390px] border p-3"
+            class="rounded-xl border-muted bg-background-alt shadow-card h-max w-[390px] border p-3"
         >
             <Tabs.List
                 class="rounded-9px bg-dark-10 shadow-mini-inset dark:bg-background grid w-full grid-cols-2 gap-1 p-1 text-sm font-semibold leading-[0.01em] dark:border dark:border-neutral-600/30"

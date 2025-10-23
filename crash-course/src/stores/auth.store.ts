@@ -1,4 +1,4 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { validUsers } from './user.store.js';
 // Load session from localStorage if available
 const storedUser = localStorage.getItem('user');
@@ -12,33 +12,69 @@ authUser.subscribe((value) => {
 });
 
 // Simple auth functions
-export function signup(credentials: { name: string; email: string; password: string }) {
+export async function signup(credentials: { name: string; email: string; password: string }) {
+	await new Promise((resolve) => setTimeout(resolve, 2000));
+
 	const { name, email, password } = credentials;
 	const newUser = { id: Date.now(), name, email, password, createdAt: new Date().toISOString() };
-
+	let userExists = false;
 	// updates users store
-
 	validUsers.update((users) => {
+		const isUserExists = users.find((user) => user.email === email);
+
+		if (isUserExists) {
+			userExists = true;
+			return users;
+		}
+		authUser.set(String(newUser.id));
 		return [...users, newUser];
 	});
 
 	// update store
+	if (userExists) {
+		return {
+			newUser: null,
+			status: 'error',
+			message: 'User already exists'
+		};
+	}
 	authUser.set(String(newUser.id));
+	return {
+		newUser,
+		status: 'success',
+		message: 'User registered successfully'
+	};
 }
 
-export function login(credentials: { email: string; password: string }) {
+export async function login(credentials: { email: string; password: string }) {
+	await new Promise((resolve) => setTimeout(resolve, 2000));
+
 	const { email, password } = credentials;
+	const isUserValid = get(validUsers).find((user) => user.email === email);
 
-	// search user data Json
+	if (!isUserValid) {
+		return {
+			status: 'error',
+			message: 'user not found',
+			user: null
+		};
+	}
 
-	validUsers.update((users) => {
-		const isUserValid = users.find((user) => user.email === email);
-		if (!isUserValid) throw new Error('User not found');
-
-		if (isUserValid.password !== password) throw new Error('Invalid password');
-		authUser.set(String(isUserValid.id));
-		return users;
-	});
+	if (isUserValid.password !== password) {
+		{
+			return {
+				status: 'error',
+				message: 'Invalid credentials',
+				user: null
+			};
+		}
+	}
+	authUser.set(String(isUserValid.id));
+	return {
+		status: 'success',
+		message: 'Log in successful',
+		user: isUserValid
+	};
 }
 
 export function logout() {
