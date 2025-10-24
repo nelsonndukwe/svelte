@@ -27,7 +27,7 @@
 
 <div class="dark:bg-background rounded-lg bg-white p-4 shadow-md">
 	<div class="mb-4 flex items-center justify-between">
-		<h2 class="text-sm font-semibold text-gray-800 md:text-lg">All Users</h2>
+		<h2 class="text-sm font-semibold text-gray-800  dark:text-accent md:text-lg">All Users</h2>
 
 		<div class="relative">
 			<input
@@ -44,7 +44,7 @@
 
 	<table class="min-w-full cursor-pointer rounded-2xl border text-sm text-gray-800">
 		<thead class="bg-accent-foreground dark:bg-background rounded-xl text-left">
-			<tr class="text-accent dark:text-gray-400">
+			<tr class="text-accent dark:text-accent">
 				<th class="p-3 font-semibold">Name</th>
 				<th class="p-3 font-semibold">Email</th>
 				<th class="p-3 font-semibold">Role</th>

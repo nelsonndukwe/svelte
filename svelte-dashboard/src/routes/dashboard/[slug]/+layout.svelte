@@ -127,7 +127,7 @@
 
 					<div class={`block space-y-1 text-sm font-normal ${$derivedState && 'hidden'}`}>
 						<p class="font-semibold">{data.user?.name}</p>
-						<p class="text-xs">{data.user?.role}</p>
+						<p class="text-xs text-start capitalize">{data.user?.role}</p>
 					</div>
 				</div>
 			</Popover.Trigger>

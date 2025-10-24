@@ -55,33 +55,31 @@ export const editUser = (id: string) => {
 	};
 };
 
-// export const updateUserData = (data:{}) => {
-// 	const getUsers = JSON.parse(localStorage.getItem('users') || '[]') as {
-// 		id: string;
-// 		name: string;
-// 		email: string;
-// 	}[];
+export const createUser = async (data: {
+	name: string;
+	email: string;
+	role: (typeof users)[0]['role'];
+}) => {
+	let user = null;
+	await new Promise((resolve) => setTimeout(resolve, 3000));
+	validUsers.update((users) => {
+		const newUser = {
+			id: Date.now(),
+			name: data.name,
+			email: data.email,
+			role: data.role,
+			password: data.name,
+			createdAt: new Date().toISOString()
+		};
 
-// 	const user = getUsers.find((user) => user.id === id);
+		const updatedUsers = [...users, newUser];
+		user = newUser;
+		return updatedUsers;
+	});
 
-// 	if (!user) {
-// 		throw new Error('User not found');
-// 	}
-
-// 	const newUsers = getUsers.map((user) => {
-// 		if (user.id === id) {
-// 			return {
-// 				...user,
-// 				name: 'Updated Name'
-// 			};
-// 		}
-// 	});
-
-// 	const updatedUsers = JSON.stringify(newUsers);
-// 	localStorage.setItem('users', updatedUsers);
-// 	return {
-// 		data: user,
-// 		message: 'User profile updated successfully',
-// 		status: 200
-// 	};
-// };
+	return {
+		message: 'User profile created successfully',
+		status: 200,
+		user
+	};
+};

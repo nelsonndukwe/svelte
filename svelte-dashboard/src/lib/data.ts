@@ -8,6 +8,7 @@ import Mail from 'lucide-svelte/icons/mail';
 import Send from 'lucide-svelte/icons/send';
 import Settings from 'lucide-svelte/icons/settings';
 import House from 'lucide-svelte/icons/house';
+import User from 'lucide-svelte/icons/user';
 
 export const getAllRoutes = (
 	orgId: string
@@ -24,7 +25,7 @@ export const getAllRoutes = (
 		},
 		{
 			title: 'Users',
-			Icon: Plane,
+			Icon: User,
 			href: `/dashboard/${orgId}/users`
 		},
 		{
@@ -64,3 +65,16 @@ export const getAllRoutes = (
 		}
 	];
 };
+
+export const roles = [
+	{ key: 'admin', label: 'Administrator' },
+	{ key: 'editor', label: 'Editor' },
+	{ key: 'viewer', label: 'Viewer' },
+	{ key: 'moderator', label: 'Moderator' },
+	{ key: 'support', label: 'Support Staff' }
+];
+
+export const status = [
+	{ key: 'active', label: 'Active' },
+	{ key: 'inactive', label: 'Inactive' }
+];
