@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Avatar, DropdownMenu } from 'bits-ui';
 	import { DotSquare } from 'lucide-svelte';
-	import CreateUser from './CreateUser.svelte';
+	import CreateUser from './ManageUser.svelte';
 
 	let notifications = $state<boolean>(false);
 	let isOpen = $state(true);

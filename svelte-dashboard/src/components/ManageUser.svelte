@@ -2,20 +2,27 @@
 	import { roles, status } from '$lib/data.js';
 	import { Dialog, Label, Separator } from 'bits-ui';
 	import { Eye, EyeOff, Mail, Lock, Loader, X, ChevronDown, User } from 'lucide-svelte';
-	import { createUser } from '../stores/user.store.js';
+	import { createUser, editUser } from '../stores/user.store.js';
 	import type { users } from '../database/index.js';
+	import { onMount } from 'svelte';
 
 	let {
 		label,
 		title,
-		description
-	}: { isOpen: boolean; label: string; title: string; description: string } = $props();
+		user
+	}: {
+		isOpen: boolean;
+		label: string;
+		title: string;
+		user?: (typeof users)[0] | null;
+	} = $props();
 	let email = $state('');
 	let name = $state('');
 	let responseState = $state<string | null>(null);
 	let loading = $state(false);
 	let selectedRole: string = $state('');
 	let isOpen = $state(false);
+	let selectedStatus: string = $state('');
 
 	async function handleCreate() {
 		loading = true;
@@ -25,25 +32,44 @@
 			role: selectedRole as (typeof users)[0]['role']
 		};
 
-		const user = await createUser(payload);
-		if (!user) {
+		if (user) {
+			const res = await editUser(String(user.id), {
+				...payload,
+				status: selectedStatus as (typeof users)[0]['status']
+			});
+
+			responseState = 'User edited successfully';
+			loading = false;
+			isOpen = false;
+			return;
+		}
+
+		const newUser = await createUser(payload);
+		if (!newUser) {
 			responseState = 'Error creating user';
 		}
-		responseState = 'selectedRole: ' + selectedRole;
-		console.log(`payload`, payload);
+		responseState = 'User created successfully';
 		loading = false;
 		isOpen = false;
 	}
 
 	function handleChange(event: Event, type: 'role' | 'status') {
-		// if (type === 'status') {
-		// 	const target = event.target as HTMLSelectElement;
-		// 	selectedStatus = target.value;
-		// 	return;
-		// }
+		if (type === 'status') {
+			const target = event.target as HTMLSelectElement;
+			selectedStatus = target.value;
+			return;
+		}
 		const target = event.target as HTMLSelectElement;
 		selectedRole = target.value;
 	}
+
+	onMount(() => {
+		if (!user) return;
+
+		name = user.name;
+		email = user.email;
+		selectedRole = user?.role ?? '';
+	});
 </script>
 
 <Dialog.Root bind:open={isOpen}>
@@ -106,7 +132,7 @@
 						onchange={(e) => handleChange(e, 'role')}
 						class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-blue-500"
 					>
-						<option class="rounded-md" value="" disabled selected>Select role...</option>
+						<option class="rounded-md" value={''} disabled selected>Select role...</option>
 						{#each roles as role (role.key)}
 							<option value={role.key} class="capitalize">
 								{role.label}
@@ -120,24 +146,24 @@
 					/>
 				</div>
 
-				<!-- <div class="relative w-full">
-					<select
-						bind:value={selectedStatus}
-						onchange={(e) => handleChange(e, 'status')}
-						class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-blue-500"
-					>
-						<option class="rounded-md" value="" disabled selected>Select Status...</option>
-						{#each status as item (item.key)}
-							<option value={item.key} class="capitalize">
-								{item.label}
-							</option>
-						{/each}
-					</select>
+				{#if user}<div class="relative w-full">
+						<select
+							bind:value={selectedStatus}
+							onchange={(e) => handleChange(e, 'status')}
+							class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-blue-500"
+						>
+							<option class="rounded-md" value="" disabled selected>Select Status...</option>
+							{#each status as item (item.key)}
+								<option value={item.key} class="capitalize">
+									{item.label}
+								</option>
+							{/each}
+						</select>
 
-					<ChevronDown
-						class="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-gray-500 transition-transform duration-200 peer-focus:rotate-180"
-					/>
-				</div> -->
+						<ChevronDown
+							class="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-gray-500 transition-transform duration-200 peer-focus:rotate-180"
+						/>
+					</div>{/if}
 
 				<button
 					type="submit"

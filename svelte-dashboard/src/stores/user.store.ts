@@ -28,19 +28,29 @@ export const deleteUser = (id: string) => {
 	};
 };
 
-export const editUser = (id: string) => {
+export const editUser = async (
+	id: string,
+	payload: {
+		name?: string;
+		email?: string;
+		role?: (typeof users)[0]['role'];
+		status?: 'active' | 'inactive';
+	}
+) => {
+	await new Promise((resolve) => setTimeout(resolve, 3000));
+
 	validUsers.update((users) => {
-		const currentUser = users.find((user) => user.id === Number(id));
+		const currentUser = users.find((user) => String(user.id) === id);
 
 		if (!currentUser) {
-			throw new Error('User not found');
+			return users;
 		}
 
 		const updatedUsers = users.map((user) => {
-			if (user.id === Number(id)) {
+			if (String(user.id) === id) {
 				return {
 					...user,
-					name: 'Updated Name'
+					...payload
 				};
 			}
 			return user;
