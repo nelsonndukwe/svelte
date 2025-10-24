@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { roles, status } from '$lib/data.js';
 	import { Dialog, Label, Separator } from 'bits-ui';
-	import { Eye, EyeOff, Mail, Lock, Loader, X, ChevronDown, User } from 'lucide-svelte';
+	import Eye from 'lucide-svelte/icons/eye';
+	import EyeOff from 'lucide-svelte/icons/eye-off';
+	import Mail from 'lucide-svelte/icons/mail';
+	import Pencil from 'lucide-svelte/icons/pencil';
+	import Loader from 'lucide-svelte/icons/loader';
+	import X from 'lucide-svelte/icons/x';
+	import ChevronDown from 'lucide-svelte/icons/chevron-down';
+	import User from 'lucide-svelte/icons/user';
 	import { createUser, editUser } from '../stores/user.store.js';
 	import type { users } from '../database/index.js';
 	import { onMount } from 'svelte';
@@ -11,7 +18,6 @@
 		title,
 		user
 	}: {
-		isOpen: boolean;
 		label: string;
 		title: string;
 		user?: (typeof users)[0] | null;
@@ -74,10 +80,11 @@
 
 <Dialog.Root bind:open={isOpen}>
 	<Dialog.Trigger
-		class="inline-flex h-6 items-center justify-center rounded-input
-        bg-foreground px-3 py-4 text-xs font-semibold
-        whitespace-nowrap text-accent shadow-mini  transition-colors hover:bg-dark/95 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden active:scale-[0.98] md:h-8 md:py-2 md:text-sm dark:bg-accent dark:text-background"
+		class="inline-flex   items-center justify-start gap-x-1
+     rounded-input px-2 py-2 text-xs
+       font-semibold whitespace-nowrap hover:bg-gray-200 transition-colorsfocus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden active:scale-[0.98]"
 	>
+		<Pencil class="size-4 text-black dark:text-accent" />
 		{label}
 	</Dialog.Trigger>
 	<Dialog.Portal>
@@ -108,7 +115,8 @@
 					<input
 						type="text"
 						placeholder="Enter full name"
-						bind:value={name}
+						value={name}
+						oninput={(e) => (name = (e.target as HTMLInputElement).value)}
 						class="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:bg-background-alt"
 						required
 					/>
@@ -119,7 +127,8 @@
 					<input
 						type="email"
 						placeholder="Email address"
-						bind:value={email}
+						value={email}
+						oninput={(e) => (email = (e.target as HTMLInputElement).value)}
 						class="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:bg-background-alt"
 						required
 					/>
@@ -128,7 +137,7 @@
 				<!-- Role -->
 				<div class="relative w-full">
 					<select
-						bind:value={selectedRole}
+						value={selectedRole}
 						onchange={(e) => handleChange(e, 'role')}
 						class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-blue-500"
 					>
@@ -148,7 +157,7 @@
 
 				{#if user}<div class="relative w-full">
 						<select
-							bind:value={selectedStatus}
+							value={selectedStatus}
 							onchange={(e) => handleChange(e, 'status')}
 							class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-blue-500"
 						>

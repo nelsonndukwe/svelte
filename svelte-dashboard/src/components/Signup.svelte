@@ -1,5 +1,9 @@
 <script lang="ts">
-	import { Eye, EyeOff, Mail, Lock, Loader } from 'lucide-svelte';
+	import Eye from 'lucide-svelte/icons/eye';
+	import EyeOff from 'lucide-svelte/icons/eye-off';
+	import Mail from 'lucide-svelte/icons/mail';
+	import Lock from 'lucide-svelte/icons/lock';
+	import Loader from 'lucide-svelte/icons/loader';
 	import { goto } from '$app/navigation';
 
 	import { derived, get } from 'svelte/store';
@@ -58,7 +62,8 @@
 				<input
 					type="text"
 					placeholder="Full name"
-					bind:value={name}
+					value={name}
+					oninput={(e) => name = (e.target as HTMLInputElement).value}
 					class="w-full dark:bg-background-alt rounded-lg border border-gray-300 py-2 pl-10 pr-4 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>
@@ -69,7 +74,8 @@
 				<input
 					type="email"
 					placeholder="Email address"
-					bind:value={email}
+					value={email}
+					oninput={(e) => email = (e.target as HTMLInputElement).value}
 					class="w-full dark:bg-background-alt rounded-lg border border-gray-300 py-2 pl-10 pr-4 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>
@@ -81,7 +87,8 @@
 				<input
 					type={showPassword ? 'text' : 'password'}
 					placeholder="Password"
-					bind:value={password}
+					value={password}
+					oninput={(e) => password = (e.target as HTMLInputElement).value}
 					class="w-full dark:bg-background-alt rounded-lg border border-gray-300 py-2 pl-10 pr-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>
@@ -106,7 +113,8 @@
 				<input
 					type={showConfirmPassword ? 'text' : 'password'}
 					placeholder="Confirm Password"
-					bind:value={confirmPassword}
+					value={confirmPassword}
+					oninput={(e) => confirmPassword = (e.target as HTMLInputElement).value}
 					class="w-full dark:bg-background-alt rounded-lg border border-gray-300 py-2 pl-10 pr-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>

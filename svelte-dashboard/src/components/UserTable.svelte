@@ -1,13 +1,17 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { writable, derived } from 'svelte/store';
-	import  Search  from 'lucide-svelte/icons/search';
+	import Search from 'lucide-svelte/icons/search';
 	import { deleteUser, validUsers } from '../stores/user.store.js';
 	import ManageUser from './ManageUser.svelte';
-	import Dropdown from './Dropdown.svelte';
+	import ConfirmModal from './ConfirmModal.svelte';
+	import { Popover, Separator } from 'bits-ui';
+	import Ellipsis from 'lucide-svelte/icons/ellipsis-vertical';
+
+
 
 	const query = writable('');
-
+	let loading = $state(false);
 	// Derived store for filtered results
 	const filteredUsers = derived([validUsers, query], ([$users, $query]) => {
 		if (!$query.trim()) return $users;
@@ -17,10 +21,11 @@
 			(user) => user.name.toLowerCase().includes(q) || user.email.toLowerCase().includes(q)
 		);
 	});
-	function handleDelete(id: string) {
-		if (confirm('Are you sure you want to delete this user?')) {
-			deleteUser(id);
-		}
+	async function handleDelete(id: string) {
+		loading = true;
+		await new Promise((resolve) => setTimeout(resolve, 500));
+		deleteUser(id);
+		loading = false;
 	}
 </script>
 
@@ -32,17 +37,14 @@
 			<input
 				type="text"
 				placeholder="Search users..."
-				bind:value={$query}
+				value={$query}
+				oninput={(e) => query.set((e.target as HTMLInputElement).value)}
 				class="rounded-md border border-gray-300 bg-gray-50 py-2 pr-3 pl-8 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 md:w-96"
 			/>
 			<Search class="absolute top-2.5 left-2 size-4 text-gray-400" />
 		</div>
 
-		<ManageUser
-			isOpen={true}
-			label={'Add new user'}
-			title={'Add new user'}
-		/>
+		<ManageUser label={'Add new user'} title={'Add new user'} />
 	</div>
 
 	<table class="min-w-full cursor-pointer rounded-2xl border text-sm text-gray-800">
@@ -51,7 +53,7 @@
 				<th class="p-3 font-semibold">Name</th>
 				<th class="p-3 font-semibold">Email</th>
 				<th class="p-3 font-semibold">Role</th>
-				<th class="p-3 text-right font-semibold">Actions</th>
+				<th class="p-3  font-semibold text-center">Actions</th>
 			</tr>
 		</thead>
 
@@ -63,15 +65,34 @@
 					<td class="p-2.5">{user.name}</td>
 					<td class="p-2.5">{user.email}</td>
 					<td class="p-2.5 capitalize">{user.role}</td>
-					<td class="p-2.5 text-right">
-						<!-- <Dropdown /> -->
+					<td class="p-2.5 text-center">
+						<Popover.Root>
+							<Popover.Trigger
+								class="inline-flex size-6 rounded-full hover:bg-gray-200 items-center
+						  justify-center font-medium whitespace-nowrap text-background transition-all select-none hover:cursor-pointer active:scale-[0.98] "
+							>
+								<Ellipsis class="size-4 text-black dark:text-accent"/></Popover.Trigger
+							>
+							<Popover.Portal>
+								<Popover.Content
+									class="z-50 w-[150px] origin-(--bits-popover-content-transform-origin) rounded-[12px] border border-dark-10 bg-background p-2 shadow-popover data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 dark:bg-accent"
+									sideOffset={8}
+									alignOffset={20}
+								>
+									<ConfirmModal
+										title="Delete User"
+										prompt="Do you want to delete this user"
+										primarylabel="Delete"
+										secondarylabel="Cancel"
+										action={() => handleDelete(String(user.id))}
+										{loading}
+									/>
 
-						<ManageUser
-							isOpen={true}
-							label={'Edit'}
-							title={'Edit user profile'}
-							user={user}
-						/>
+									<Separator.Root class="my-2 block h-px bg-dark-10" />
+									<ManageUser label={'Edit'} title={'Edit user profile'} {user} />
+								</Popover.Content>
+							</Popover.Portal>
+						</Popover.Root>
 					</td>
 				</tr>
 			{:else}
