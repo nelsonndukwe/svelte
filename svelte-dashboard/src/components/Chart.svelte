@@ -1,56 +1,27 @@
 <script>
-	import * as d3 from "d3";
-	// Import axes-components.
-	import AxisY from './AxisY.svelte';
-	import AxisX from './AxisX.svelte';
+	import { graph } from '$lib/data.js';
+	import { Chart, Axis, Layer, Rule, Tooltip, Points, Highlight, LinearGradient, Area } from 'layerchart';
 
-  // Receive plot data as prop.
-  export let data;
-
-  const width = 928;
-  const height = 500;
-  
-	const margin = { 
-		top: 10,
-		right: 10,
-		bottom: 20,
-		left: 30	
-	};
-
-  // Declare the x (horizontal position) scale.
-  $: xScale = d3.scaleUtc()
-      .domain(d3.extent(data, d => new Date(d.date)))
-      .range([margin.left, width - margin.right]);
-
-	// Declare the y (vertical position) scale.
-  $: yScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.close)])
-      .rangeRound([height - margin.bottom, margin.top]);
-
-  // Declare the line generator.
-  const line = d3.line()
-      .x(d => xScale(new Date(d.date)))
-      .y(d => yScale(d.close));
+	import { sort } from '@layerstack/utils';
 </script>
 
-<svg
-  {width}
-  {height}
-  viewBox="0 0 {width} {height}"
-  style:max-width="100%"
-  style:height="auto"
->
-	<!-- Add the y-axis -->
-	<AxisY {yScale} {width} {margin} />
-	
-	<!-- Add the x-axis -->
-	<AxisX {xScale} {height} {margin} />
-
-	<!-- Add a path for the line. -->
-	<g class="data">
-			<path 
-				fill=none
-				stroke="steelblue"
-				d={line(data)}/>
-	</g>
-</svg>
+<div class="h-[300px] p-4 border rounded-lg shadow-accent">
+	<Chart
+	  data={graph}
+	  x="month"
+	  y="activeUsers"
+	  yDomain={[0, null]}
+	  yNice
+	  padding={{ left: 8, bottom: 12 }}
+	>
+	  <Layer type={"svg"}>
+		<Axis placement="left" grid rule />
+		<Axis placement="bottom" rule />
+		<LinearGradient class="from-sky-100 via-sky-200 to-blue-200" vertical>
+		  {#snippet children({ gradient })}
+			<Area line={{ class: "stroke-2 stroke-primary" }} fill={gradient} />
+		  {/snippet}
+		</LinearGradient>
+	  </Layer>
+	</Chart>
+  </div>

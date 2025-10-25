@@ -31,7 +31,7 @@
 	<Dialog.Trigger
 		class="inline-flex w-full  items-center justify-start gap-x-1
      rounded-input px-2 py-2 text-xs
-       font-semibold whitespace-nowrap transition-colors hover:bg-gray-200 focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden active:scale-[0.98]"
+       font-semibold whitespace-nowrap transition-colors focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden active:scale-[0.98]"
 	>
 		<Trash class="size-4 text-red-700" />
 

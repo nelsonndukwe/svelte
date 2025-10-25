@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getGreeting } from '$lib/helpers.js';
 	import CardOverview from '../../../components/CardOverview.svelte';
+	import Chart from '../../../components/Chart.svelte';
 	import Header from '../../../components/Header.svelte';
 	import UserTable from '../../../components/UserTable.svelte';
 	import { overviewData } from '../../../database/index.js';
@@ -30,8 +31,8 @@
 		{/each}
 	</div>
 
-	<div class="h-10 md:h-[350px]">
-		<div class="bg-accent h-full w-full rounded-[14px]"></div>
+	<div class="min-h-[350px] h-full border rounded-lg shadow-accent p-4">
+		<Chart  />
 	</div>
 
 	<div class="mb-4 h-full">

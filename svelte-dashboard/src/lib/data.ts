@@ -78,3 +78,78 @@ export const status = [
 	{ key: 'active', label: 'Active' },
 	{ key: 'inactive', label: 'Inactive' }
 ];
+
+export const graph = [
+	{
+		month: 'Jan',
+		newUsers: 120,
+		activeUsers: 95,
+		deletedAccounts: 3
+	},
+	{
+		month: 'Feb',
+		newUsers: 150,
+		activeUsers: 120,
+		deletedAccounts: 5
+	},
+	{
+		month: 'Mar',
+		newUsers: 180,
+		activeUsers: 140,
+		deletedAccounts: 8
+	},
+	{
+		month: 'Apr',
+		newUsers: 200,
+		activeUsers: 160,
+		deletedAccounts: 4
+	},
+	{
+		month: 'May',
+		newUsers: 230,
+		activeUsers: 190,
+		deletedAccounts: 6
+	},
+	{
+		month: 'Jun',
+		newUsers: 260,
+		activeUsers: 210,
+		deletedAccounts: 5
+	},
+	{
+		month: 'Jul',
+		newUsers: 280,
+		activeUsers: 220,
+		deletedAccounts: 3
+	},
+	{
+		month: 'Aug',
+		newUsers: 310,
+		activeUsers: 250,
+		deletedAccounts: 4
+	},
+	{
+		month: 'Sep',
+		newUsers: 290,
+		activeUsers: 240,
+		deletedAccounts: 5
+	},
+	{
+		month: 'Oct',
+		newUsers: 320,
+		activeUsers: 260,
+		deletedAccounts: 6
+	},
+	{
+		month: 'Nov',
+		newUsers: 340,
+		activeUsers: 280,
+		deletedAccounts: 4
+	},
+	{
+		month: 'Dec',
+		newUsers: 380,
+		activeUsers: 310,
+		deletedAccounts: 7
+	}
+];
