@@ -117,7 +117,7 @@
 						placeholder="Enter full name"
 						value={name}
 						oninput={(e) => (name = (e.target as HTMLInputElement).value)}
-						class="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:bg-background-alt"
+						class="w-full rounded-lg border   dark:text-white border-gray-300 py-2 pr-4 pl-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:bg-background-alt"
 						required
 					/>
 				</div>
@@ -129,7 +129,7 @@
 						placeholder="Email address"
 						value={email}
 						oninput={(e) => (email = (e.target as HTMLInputElement).value)}
-						class="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:bg-background-alt"
+						class="w-full rounded-lg border   dark:text-white border-gray-300 py-2 pr-4 pl-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:bg-background-alt"
 						required
 					/>
 				</div>
@@ -139,8 +139,8 @@
 					<select
 						value={selectedRole}
 						onchange={(e) => handleChange(e, 'role')}
-						class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-blue-500"
-					>
+						class="peer block w-full    appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-100  dark:border-gray-700 dark:bg-background-alt dark:text-white "
+						>
 						<option class="rounded-md" value={''} disabled selected>Select role...</option>
 						{#each roles as role (role.key)}
 							<option value={role.key} class="capitalize">
@@ -159,7 +159,7 @@
 						<select
 							value={selectedStatus}
 							onchange={(e) => handleChange(e, 'status')}
-							class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:focus:ring-blue-500"
+							class="peer block w-full    appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-100  dark:border-gray-700 dark:bg-background-alt dark:text-white "
 						>
 							<option class="rounded-md" value="" disabled selected>Select Status...</option>
 							{#each status as item (item.key)}

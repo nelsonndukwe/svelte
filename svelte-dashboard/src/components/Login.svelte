@@ -55,7 +55,7 @@
 					placeholder="Email address"
 					value={email}
 					oninput={(e) => email = (e.target as HTMLInputElement).value}
-					class="w-full rounded-lg border dark:bg-background-alt border-gray-300 py-2 pl-10 pr-4 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+					class="w-full rounded-lg border  dark:bg-background-alt dark:text-white  border-gray-300 py-2 pl-10 pr-4 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>
 			</div>
@@ -68,7 +68,7 @@
 					placeholder="Password"
 					value={password}
 					oninput={(e) => password = (e.target as HTMLInputElement).value}
-					class="w-full rounded-lg border dark:bg-background-alt border-gray-300 py-2 pl-10 pr-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+					class="w-full rounded-lg border  dark:bg-background-alt dark:text-white  border-gray-300 py-2 pl-10 pr-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
 					required
 				/>
 				<button
@@ -77,9 +77,11 @@
 					onclick={() => (showPassword = !showPassword)}
 				>
 					{#if showPassword}
-						<EyeOff class="size-5" />
-					{:else}
 						<Eye class="size-5" />
+
+					{:else}
+					<EyeOff class="size-5" />
+
 					{/if}
 				</button>
 			</div>
