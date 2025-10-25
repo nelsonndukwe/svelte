@@ -15,9 +15,9 @@
 	>
 		<button
 			onclick={() => toggleSidebar()}
-			class="fixed right-5 bottom-5 flex size-8 justify-center rounded-md bg-foreground md:hidden dark:bg-accent"
+			class="fixed right-5 bottom-5 flex size-8 justify-center rounded-md bg-foreground md:hidden dark:bg-black"
 		>
-			<Columns2 class="size-6 self-center text-accent dark:text-foreground" />
+			<Columns2 class="size-6 self-center text-accent dark:text-accent" />
 		</button>
 
 		{@render children()}

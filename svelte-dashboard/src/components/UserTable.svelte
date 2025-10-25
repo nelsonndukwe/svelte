@@ -29,7 +29,7 @@
 	}
 </script>
 
-<div class="rounded-lg bg-white p-4 shadow-md dark:bg-background">
+<div class="rounded-lg bg-white p-4 shadow-md dark:bg-background overflow-auto scroll scrollbar-hide">
 	<div class="mb-4 flex items-center justify-between">
 		<h2 class="text-sm font-semibold text-gray-800 md:text-lg dark:text-accent">All Users</h2>
 
