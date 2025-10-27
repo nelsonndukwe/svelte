@@ -11,7 +11,7 @@
 	import User from 'lucide-svelte/icons/user';
 	import { createUser, editUser } from '../stores/user.store.js';
 	import type { users } from '../database/index.js';
-	import { onMount } from 'svelte';
+	import { onMount, type Snippet } from 'svelte';
 
 	let {
 		label,
@@ -80,13 +80,16 @@
 
 <Dialog.Root bind:open={isOpen}>
 	<Dialog.Trigger
-		class="inline-flex items-center justify-start gap-x-1
-     rounded-input px-2 py-2 text-xs dark:text-gray-200
-       font-semibold whitespace-nowraptransition-colorsfocus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden active:scale-[0.98]"
+		class={`inline-flex items-center justify-start gap-x-1 rounded-input px-2
+     py-2 text-xs font-semibold whitespace-nowrap transition-colors
+       focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden active:scale-[0.98] dark:text-gray-200
+	 ${!user && 'bg-blue-600 hover:bg-green-600'}  
+	   `}
 	>
 		<Pencil class="size-4 text-black dark:text-gray-200" />
 		{label}
 	</Dialog.Trigger>
+
 	<Dialog.Portal>
 		<Dialog.Overlay
 			class="fixed inset-0 z-50 bg-black/80 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0"
@@ -117,7 +120,7 @@
 						placeholder="Enter full name"
 						value={name}
 						oninput={(e) => (name = (e.target as HTMLInputElement).value)}
-						class="w-full rounded-lg border   dark:text-white border-gray-300 py-2 pr-4 pl-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:bg-background-alt"
+						class="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:bg-background-alt dark:text-white"
 						required
 					/>
 				</div>
@@ -129,7 +132,7 @@
 						placeholder="Email address"
 						value={email}
 						oninput={(e) => (email = (e.target as HTMLInputElement).value)}
-						class="w-full rounded-lg border   dark:text-white border-gray-300 py-2 pr-4 pl-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:bg-background-alt"
+						class="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 text-sm text-gray-700 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:bg-background-alt dark:text-white"
 						required
 					/>
 				</div>
@@ -139,8 +142,8 @@
 					<select
 						value={selectedRole}
 						onchange={(e) => handleChange(e, 'role')}
-						class="peer block w-full    appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-100  dark:border-gray-700 dark:bg-background-alt dark:text-white "
-						>
+						class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-background-alt dark:text-white"
+					>
 						<option class="rounded-md" value={''} disabled selected>Select role...</option>
 						{#each roles as role (role.key)}
 							<option value={role.key} class="capitalize">
@@ -159,7 +162,7 @@
 						<select
 							value={selectedStatus}
 							onchange={(e) => handleChange(e, 'status')}
-							class="peer block w-full    appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-100  dark:border-gray-700 dark:bg-background-alt dark:text-white "
+							class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-background-alt dark:text-white"
 						>
 							<option class="rounded-md" value="" disabled selected>Select Status...</option>
 							{#each status as item (item.key)}

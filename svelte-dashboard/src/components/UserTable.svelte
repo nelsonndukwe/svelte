@@ -5,14 +5,13 @@
 	import { deleteUser, validUsers } from '../stores/user.store.js';
 	import ManageUser from './ManageUser.svelte';
 	import ConfirmModal from './ConfirmModal.svelte';
-	import { Popover, Separator } from 'bits-ui';
+	import { Dialog, Popover, Separator } from 'bits-ui';
 	import Ellipsis from 'lucide-svelte/icons/ellipsis-vertical';
-
+	import Pencil from 'lucide-svelte/icons/pencil';
 
 
 	const query = writable('');
 	let loading = $state(false);
-	// Derived store for filtered results
 	const filteredUsers = derived([validUsers, query], ([$users, $query]) => {
 		if (!$query.trim()) return $users;
 
@@ -89,7 +88,7 @@
 									/>
 
 									<Separator.Root class="my-2 block h-px bg-dark-10" />
-									<ManageUser label={'Edit'} title={'Edit user profile'} {user} />
+									<ManageUser  label={'Edit'} title={'Edit user profile'} {user} />
 								</Popover.Content>
 							</Popover.Portal>
 						</Popover.Root>
