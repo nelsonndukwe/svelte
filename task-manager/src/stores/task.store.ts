@@ -1,7 +1,7 @@
 import { derived, writable } from 'svelte/store';
 import { tasks, type Category, type Priority, type Status } from '../database/index.js';
 import { useId } from 'bits-ui';
-import { computeTaskSortScore, priorityWeights } from '$lib/helpers.js';
+import { categorizeAndSortTasks, } from '$lib/helpers.js';
 
 // Load session from localStorage if available
 const storedTasks = localStorage.getItem('tasks');
@@ -100,12 +100,5 @@ export const createTask = async (data: {
 };
 
 export const sortedTasks = derived(taskStore, ($tasks) => {
-	return [...$tasks]
-		.map((t) => ({
-			...t,
-			priorityValue: priorityWeights[t.priority],
-			sortScore: computeTaskSortScore(t)
-		}))
-		.sort((a, b) => b.sortScore! - a.sortScore!);
+	return categorizeAndSortTasks($tasks);
 });
-

@@ -15,6 +15,20 @@ export const getGreeting = (): string => {
 		return 'Good night';
 	}
 };
+
+export function isUrgent(task: Task): boolean {
+	if (!task.dueDate) return false;
+	const now = Date.now();
+	const due = new Date(task.dueDate).getTime();
+	const hoursUntilDue = (due - now) / (1000 * 60 * 60);
+	return hoursUntilDue <= 48 && hoursUntilDue >= 0;
+}
+
+export function isImportant(task: Task): boolean {
+	const priorityValue = getPriorityValue(task.priority);
+	return priorityValue >= 3;
+}
+
 export const priorityWeights: Record<Priority, number> = {
 	High: 3,
 	Medium: 2,
@@ -45,4 +59,28 @@ export function computeTaskSortScore(task: Task): number {
 	const completePenalty = task.isComplete ? -5 : 0;
 
 	return priorityScore * 10 + dueScore + completePenalty;
+}
+
+export function categorizeAndSortTasks(tasks: Task[]) {
+	// Calculate score for each task
+	const scoredTasks = tasks.map((t) => ({
+		...t,
+		sortScore: computeTaskSortScore(t)
+	}));
+
+	const quadrants = {
+		urgentImportant: scoredTasks.filter((t) => isUrgent(t) && isImportant(t)),
+		notUrgentImportant: scoredTasks.filter((t) => !isUrgent(t) && isImportant(t)),
+		urgentNotImportant: scoredTasks.filter((t) => isUrgent(t) && !isImportant(t)),
+		notUrgentNotImportant: scoredTasks.filter((t) => !isUrgent(t) && !isImportant(t))
+	};
+
+	// Sort tasks inside each quadrant (higher score = higher priority)
+	for (const key in quadrants) {
+		quadrants[key as keyof typeof quadrants].sort(
+			(a, b) => (b.sortScore ?? 0) - (a.sortScore ?? 0)
+		);
+	}
+
+	return quadrants;
 }
