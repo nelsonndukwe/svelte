@@ -100,13 +100,13 @@
 
 <Dialog.Root bind:open={isOpen}>
 	<Dialog.Trigger
-		class={`inline-flex items-center bg justify-start gap-x-1 rounded-input px-2
+		class={`inline-flex items-center bg justify-start gap-x-1 rounded-input px-2 
      py-2 text-xs font-semibold whitespace-nowrap transition-colors
-       focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden active:scale-[0.98] dark:text-gray-200
+       focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-hidden active:scale-[0.98] dark:text-black
 	 ${!task && 'bg-gray-400 hover:bg-purple-600'}  
 	   `}
 	>
-		<Pencil class="size-4 text-black dark:text-gray-200" />
+		<Pencil class="size-4 text-black dark:text-black" />
 		{label}
 	</Dialog.Trigger>
 

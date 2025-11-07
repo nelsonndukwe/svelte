@@ -58,7 +58,7 @@
 			</Dialog.Title>
 			<Separator.Root class="-mx-5 mt-5 mb-6 block h-px bg-muted" />
 
-			<div class="flex flex-col gap-y-4 border border-grey1 p-2 rounded-2xl w-full">
+			<div class="flex dark:text-white flex-col gap-y-4 border border-grey1 p-2 rounded-2xl w-full">
 				<p class="text-sm">{task.title}</p>
 
 				<p class="text-sm">{task.description}</p>
