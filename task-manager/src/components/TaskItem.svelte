@@ -39,7 +39,7 @@
 </script>
 
 <Dialog.Root bind:open={isOpen}>
-	<Dialog.Trigger>
+	<Dialog.Trigger class="dark:text-white">
 		{label}
 	</Dialog.Trigger>
 
