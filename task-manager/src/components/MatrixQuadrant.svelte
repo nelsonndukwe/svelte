@@ -17,7 +17,11 @@
 </script>
 
 <div class=" rounded-[14px] p-3 w-full h-full bg-gray-200 dark:bg-gray-800 shadow-2xl">
-	<div class="my-4 dark:text-white">{title}</div>
+	<div class="my-4 dark:text-white text-sm">
+		<p class="">{title} ({data.length})</p>
+
+
+	</div>
 
 	<div class=" rounded-2xl p-2">
 		<div class="flex flex-col gap-y-3">
