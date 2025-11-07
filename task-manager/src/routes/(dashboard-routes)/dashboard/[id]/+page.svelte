@@ -17,6 +17,8 @@
 
 		const q = $query.toLowerCase();
 	});
+
+	console.log(`sortedTasks`, $sortedTasks);
 </script>
 
 <div class="p-4 w-full h-full">
@@ -25,7 +27,7 @@
 	<div class="mb-4 flex justify-between w-full items-center rounded-md p-1">
 		<h3 class="text-sm font-semibold text-gray-800 md:text-lg dark:text-accent">All Tasks</h3>
 
-		<div class="relative  items-center my-2">
+		<div class="relative items-center my-2">
 			<input
 				type="text"
 				placeholder="Search users..."
@@ -36,18 +38,23 @@
 			<Search class="absolute top-2.5 left-2 size-4 text-gray-400" />
 		</div>
 
-
-		<ManageTask  label="Add Task" />
+		<ManageTask label="Add Task" />
 	</div>
 
-	<div class="grid grid-cols-1 md:grid-cols-2 gap-6 h-full mt-5">
-		<div class="flex flex-col space-y-6">
+	<div class="grid grid-cols-1 md:grid-cols-2 grid-rows-2 gap-6 h-full mt-5">
+		<div class="flex flex-col h-full">
 			<MatrixQuadrant title="Urgent & Important" data={$sortedTasks.urgentImportant} />
+		</div>
+
+		<div class="flex flex-col h-full">
+			<MatrixQuadrant title="Not Urgent & Important" data={$sortedTasks.notUrgentImportant} />
+		</div>
+
+		<div class="flex flex-col h-full">
 			<MatrixQuadrant title="Urgent & Not Important" data={$sortedTasks.urgentNotImportant} />
 		</div>
 
-		<div class="flex flex-col space-y-6">
-			<MatrixQuadrant title="Not Urgent & Important" data={$sortedTasks.notUrgentImportant} />
+		<div class="flex flex-col h-full">
 			<MatrixQuadrant
 				title="Not Urgent & Not Important"
 				data={$sortedTasks.notUrgentNotImportant}

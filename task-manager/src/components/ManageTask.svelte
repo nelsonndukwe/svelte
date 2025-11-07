@@ -13,11 +13,15 @@
 		categoryOptions,
 		priorityOptions,
 		statusOptions,
+		type Category,
+		type Priority,
+		type Status,
 		type Task,
 		type users
 	} from '../database/index.js';
 	import { onMount, type Snippet } from 'svelte';
 	import { Heading } from 'lucide-svelte';
+	import { createTask, editTask } from '../stores/task.store.js';
 
 	let {
 		label,
@@ -31,50 +35,56 @@
 	let status: string = $state('');
 	let priority: string = $state('');
 	let category: string = $state('');
+	let dueDate: Date = $state(new Date());
 
 	let responseState = $state<string | null>(null);
 	let loading = $state(false);
 	let isOpen = $state(false);
-	let selectedStatus: string = $state('');
 
-	// async function handleCreate() {
-	// 	loading = true;
-	// 	const payload = {
-	// 		name,
-	// 		email,
-	// 		role: selectedRole as (typeof users)[0]['role']
-	// 	};
+	async function handleCreate() {
+		loading = true;
+		const payload = {
+			title,
+			description,
+			status: status as Status,
+			priority: priority as Priority,
+			category: category as Category,
+			dueDate
+		};
 
-	// 	if (task) {
-	// 		const res = await editUser(String(task.id), {
-	// 			...payload,
-	// 			status: selectedStatus as (typeof users)[0]['status']
-	// 		});
+		if (task) {
+			const res = await editTask(String(task.id), payload);
 
-	// 		responseState = 'User edited successfully';
-	// 		loading = false;
-	// 		isOpen = false;
-	// 		return;
-	// 	}
+			responseState = 'Task edited successfully';
+			loading = false;
+			isOpen = false;
+			return;
+		}
 
-	// 	const newUser = await createUser(payload);
-	// 	if (!newUser) {
-	// 		responseState = 'Error creating user';
-	// 	}
-	// 	responseState = 'User created successfully';
-	// 	loading = false;
-	// 	isOpen = false;
-	// }
+		// Fix: Convert string inputs to appropriate enum types for createTask
+		const newTask = await createTask(payload);
+		if (!newTask) {
+			responseState = 'Error creating task';
+		} else {
+			responseState = 'Task created successfully';
+		}
+		loading = false;
+		isOpen = false;
+	}
 
-	// function handleChange(event: Event, type: 'role' | 'status') {
-	// 	if (type === 'status') {
-	// 		const target = event.target as HTMLSelectElement;
-	// 		selectedStatus = target.value;
-	// 		return;
-	// 	}
-	// 	const target = event.target as HTMLSelectElement;
-	// 	status = target.value;
-	// }
+	function handleChange(event: Event, type: 'status' | 'priority' | 'category') {
+		if (type === 'status') {
+			const target = event.target as HTMLSelectElement;
+			status = target.value;
+			return;
+		} else if (type === 'priority') {
+			const target = event.target as HTMLSelectElement;
+			priority = target.value;
+			return;
+		}
+		const target = event.target as HTMLSelectElement;
+		category = target.value;
+	}
 
 	onMount(() => {
 		if (!task) return;
@@ -84,6 +94,7 @@
 		status = task.status ?? '';
 		priority = task.priority;
 		category = task.category;
+		dueDate = task.dueDate;
 	});
 </script>
 
@@ -120,7 +131,7 @@
 					</p>
 				</Dialog.Description>
 			{/if}
-			<form onsubmit={() => {}} class="flex w-full flex-col gap-4">
+			<form onsubmit={handleCreate} class="flex w-full flex-col gap-4">
 				<!-- Name -->
 				<div class="relative w-full">
 					<Heading class="absolute top-2.5 left-3 size-5 text-gray-400" />
@@ -149,7 +160,7 @@
 				<div class="relative w-full">
 					<select
 						value={status}
-						onchange={(e) => {}}
+						onchange={(e) => handleChange(e, 'status')}
 						class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-background-alt dark:text-white"
 					>
 						<option class="rounded-md" value={''} disabled selected>Select Task status...</option>
@@ -169,7 +180,7 @@
 				<div class="relative w-full">
 					<select
 						value={priority}
-						onchange={(e) => {}}
+						onchange={(e) => handleChange(e, 'priority')}
 						class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-background-alt dark:text-white"
 					>
 						<option class="rounded-md" value="" disabled selected
@@ -190,7 +201,7 @@
 				<div class="relative w-full">
 					<select
 						value={category}
-						onchange={(e) => {}}
+						onchange={(e) => handleChange(e, 'category')}
 						class="peer block w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-700 shadow-sm transition-all duration-300 ease-in-out focus:border-blue-400 focus:ring-2 focus:ring-blue-100 dark:border-gray-700 dark:bg-background-alt dark:text-white"
 					>
 						<option class="rounded-md" value="" disabled selected>Select Task category...</option>

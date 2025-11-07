@@ -77,25 +77,26 @@ export const createTask = async (data: {
 	status: Status;
 	dueDate: Date;
 }) => {
-	let user = null;
+	console.log(`data`, data);
+	let task = null;
 	await new Promise((resolve) => setTimeout(resolve, 3000));
 	taskStore.update((tasks) => {
-		const newUser = {
+		const newTask = {
 			id: useId(),
 			...data,
 			isComplete: false,
 			createdAt: new Date()
 		};
 
-		const updatedTasks = [...tasks, newUser];
-		user = newUser;
+		const updatedTasks = [...tasks, newTask];
+		task = newTask;
 		return updatedTasks;
 	});
 
 	return {
 		message: 'Task created successfully',
 		status: 200,
-		user
+		task
 	};
 };
 
@@ -110,7 +111,7 @@ export const toggleComplete = (id: string) => {
 		if (!task) {
 			throw new Error('Task not found');
 		}
-		console.log(`id`, {id, task});
+		console.log(`id`, { id, task });
 
 		const updatedTasks = tasks.map((task) => {
 			if (task.id === id) {

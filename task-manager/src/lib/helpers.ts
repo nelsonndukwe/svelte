@@ -21,7 +21,7 @@ export function isUrgent(task: Task): boolean {
 	const now = Date.now();
 	const due = new Date(task.dueDate).getTime();
 	const hoursUntilDue = (due - now) / (1000 * 60 * 60);
-	return hoursUntilDue <= 48 && hoursUntilDue >= 0;
+	return (hoursUntilDue <= 48 && hoursUntilDue >= 0 || hoursUntilDue <= 0) ;
 }
 
 export function isImportant(task: Task): boolean {
@@ -45,42 +45,49 @@ export function computeTaskSortScore(task: Task): number {
 	const due = new Date(task.dueDate).getTime();
 	const hoursUntilDue = (due - now) / (1000 * 60 * 60);
 
-	const timeDiffHours = Math.max(0, 48 - hoursUntilDue);
-
 	let dueScore = 0;
 
-	if (timeDiffHours <= 48 && timeDiffHours >= 0) {
-		dueScore = (timeDiffHours / 48) * 10;
-	} else if (hoursUntilDue < 0) {
-		// Considering overdue periods
+	if (hoursUntilDue <= 0) {
+		// Overdue → maximum urgency
 		dueScore = 10;
+	} else if (hoursUntilDue <= 48) {
+		// Within next 48 hours — scale inversely:
+		// due in 0h → 10 points, due in 48h → near 0
+		dueScore = Math.max(0, ((48 - hoursUntilDue) / 48) * 10);
+	} else {
+		// More than 48h away — very low urgency
+		dueScore = 0;
 	}
 
-	const completePenalty = task.isComplete ? -5 : 0;
+	// Combine with priority weight (multiplied for greater separation)
+	const finalScore = priorityScore * 10 + dueScore;
 
-	return priorityScore * 10 + dueScore + completePenalty;
+	return finalScore;
 }
 
 export function categorizeAndSortTasks(tasks: Task[]) {
-	// Calculate score for each task
 	const scoredTasks = tasks.map((t) => ({
 		...t,
 		sortScore: computeTaskSortScore(t)
 	}));
 
 	const quadrants = {
-		urgentImportant: scoredTasks.filter((t) => isUrgent(t) && isImportant(t)),
-		notUrgentImportant: scoredTasks.filter((t) => !isUrgent(t) && isImportant(t)),
-		urgentNotImportant: scoredTasks.filter((t) => isUrgent(t) && !isImportant(t)),
-		notUrgentNotImportant: scoredTasks.filter((t) => !isUrgent(t) && !isImportant(t))
-	};
+		urgentImportant: scoredTasks
+			.filter((t) => isUrgent(t) && isImportant(t))
+			.sort((a, b) => (b.sortScore ?? 0) - (a.sortScore ?? 0)),
 
-	// Sort tasks inside each quadrant (higher score = higher priority)
-	for (const key in quadrants) {
-		quadrants[key as keyof typeof quadrants].sort(
-			(a, b) => (b.sortScore ?? 0) - (a.sortScore ?? 0)
-		);
-	}
+		notUrgentImportant: scoredTasks
+			.filter((t) => !isUrgent(t) && isImportant(t))
+			.sort((a, b) => (b.sortScore ?? 0) - (a.sortScore ?? 0)),
+
+		urgentNotImportant: scoredTasks
+			.filter((t) => isUrgent(t) && !isImportant(t))
+			.sort((a, b) => (b.sortScore ?? 0) - (a.sortScore ?? 0)),
+
+		notUrgentNotImportant: scoredTasks
+			.filter((t) => !isUrgent(t) && !isImportant(t))
+			.sort((a, b) => (b.sortScore ?? 0) - (a.sortScore ?? 0))
+	};
 
 	return quadrants;
 }
