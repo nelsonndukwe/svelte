@@ -5,6 +5,7 @@
 	import { format } from 'date-fns';
 	import { toggleComplete } from '../stores/task.store';
 	import { categoryState, priorityState, statusState } from '$lib/helpers';
+	import TaskItem from './TaskItem.svelte';
 
 	let {
 		data,
@@ -30,7 +31,7 @@
 							onCheckedChange={(state) => toggleComplete(data.id)}
 							id={data.id}
 							aria-labelledby="terms-label"
-							class="border-muted bg-foreground data-[state=unchecked]:border-border-input data-[state=unchecked]:bg-background data-[state=unchecked]:hover:border-dark-40 peer inline-flex size-[25px] items-center justify-center rounded-md border transition-all duration-150 ease-in-out active:scale-[0.98]"
+							class="border-muted  bg-foreground data-[state=unchecked]:border-border-input data-[state=unchecked]:bg-background data-[state=unchecked]:hover:border-dark-40 peer inline-flex size-[18px] items-center justify-center rounded-md border transition-all duration-150 ease-in-out active:scale-[0.98]"
 							name={data.title}
 							indeterminate={false}
 						>
@@ -47,9 +48,9 @@
 						<Label.Root
 							id="terms-label"
 							for="terms"
-							class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+							class="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 						>
-							{data.title}
+							<TaskItem label={data.title} title={'Task description'} task={data} />
 						</Label.Root>
 					</div>
 
@@ -68,7 +69,7 @@
 						</div>
 
 						<p class="text-black text-xs">
-							<span class="text-xs text-black font-medium">Due on:{' '}</span>{format(
+							<span class="text-xs text-black font-medium">Due:{' '}</span>{format(
 								data.dueDate,
 								'do-MMM-yy'
 							)}

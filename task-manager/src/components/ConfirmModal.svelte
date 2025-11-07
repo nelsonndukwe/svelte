@@ -56,6 +56,7 @@
 				</div>
 				<div class="flex w-full items-center justify-between gap-4">
 					<button
+						type="button"
 						onclick={() => (isOpen = false)}
 						class="mt-2 w-full rounded-lg bg-red-300 py-2 font-semibold text-red-700 transition-all hover:bg-red-200 focus:ring-2 focus:ring-red-300"
 					>

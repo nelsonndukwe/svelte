@@ -217,3 +217,22 @@ export const users: {
 		createdAt: '2023-12-11T09:45:00Z'
 	}
 ];
+
+export const statusOptions = [
+	{ value: 'pending', label: '⏳ Pending' },
+	{ value: 'ongoing', label: '🚧 Ongoing' },
+	{ value: 'completed', label: '✅ Completed' }
+];
+
+export const priorityOptions = [
+	{ value: 'High', label: '🔴 High' },
+	{ value: 'Medium', label: '🟡 Medium' },
+	{ value: 'Low', label: '🟢 Low' }
+];
+
+export const categoryOptions = [
+	{ value: 'Work', label: '💼 Work' },
+	{ value: 'Personal', label: '🏠 Personal' },
+	{ value: 'Finance', label: '💰 Finance' },
+	{ value: 'Other', label: '🗂️ Other' }
+];

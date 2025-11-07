@@ -19,7 +19,7 @@
 	};
 </script>
 
-<div class="border sticky top-2 mb-2 z-50 bg-white rounded-full px-4 py-2 mx-auto w-[95%]">
+<div class="border sticky top-2 mb-2 z-50 bg-white rounded-full px-4 py-2 mx-auto w-[95%] bg-white">
 	<div class="flex items-center justify-between">
 		<h1 class="text-start font-extrabold text-2xl">Dashboard</h1>
 
