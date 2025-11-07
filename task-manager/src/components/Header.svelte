@@ -1,12 +1,7 @@
 <script lang="ts">
-	import { getGreeting } from '$lib/helpers.js';
-	import { getCurrentUser } from '../stores/auth.store.js';
-
 	export let title;
 	export let content: string | undefined;
 
-
-	// fetch current user
 </script>
 
 <div class="space-y-0.5 px-2">

@@ -1,7 +1,7 @@
 import { derived, writable } from 'svelte/store';
 import { tasks, type Category, type Priority, type Status } from '../database/index.js';
 import { useId } from 'bits-ui';
-import { categorizeAndSortTasks, } from '$lib/helpers.js';
+import { categorizeAndSortTasks } from '$lib/helpers.js';
 
 // Load session from localStorage if available
 const storedTasks = localStorage.getItem('tasks');
@@ -44,9 +44,9 @@ export const editTask = async (
 	await new Promise((resolve) => setTimeout(resolve, 3000));
 
 	taskStore.update((tasks) => {
-		const currentUser = tasks.find((task) => String(task.id) === id);
+		const task = tasks.find((task) => String(task.id) === id);
 
-		if (!currentUser) {
+		if (!task) {
 			return tasks;
 		}
 
@@ -102,3 +102,27 @@ export const createTask = async (data: {
 export const sortedTasks = derived(taskStore, ($tasks) => {
 	return categorizeAndSortTasks($tasks);
 });
+
+export const toggleComplete = (id: string) => {
+	taskStore.update((tasks) => {
+		const task = tasks.find((task) => task.id === id);
+
+		if (!task) {
+			throw new Error('Task not found');
+		}
+		console.log(`id`, {id, task});
+
+		const updatedTasks = tasks.map((task) => {
+			if (task.id === id) {
+				return {
+					...task,
+					isComplete: !task.isComplete,
+					updatedAt: new Date()
+				};
+			}
+			return task;
+		});
+
+		return updatedTasks;
+	});
+};

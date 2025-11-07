@@ -1,4 +1,4 @@
-import type { Priority, Task } from '../database/index.js';
+import type { Category, Priority, Status, Task } from '../database/index.js';
 export const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
 
 export const getGreeting = (): string => {
@@ -84,3 +84,22 @@ export function categorizeAndSortTasks(tasks: Task[]) {
 
 	return quadrants;
 }
+
+export const statusState: Record<Status, string> = {
+	pending: '⏳ Pending',
+	ongoing: '🚧 Ongoing',
+	completed: '✅ Completed'
+};
+
+export const priorityState: Record<Priority, string> = {
+	High: '🔴 High',
+	Medium: '🟡 Medium',
+	Low: '🟢 Low'
+};
+
+export const categoryState: Record<Category, string> = {
+	Work: '💼 Work',
+	Personal: '🏠 Personal',
+	Finance: '💰 Finance',
+	Other: '🗂️ Other'
+};
