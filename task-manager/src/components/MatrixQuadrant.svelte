@@ -6,6 +6,9 @@
 	import { toggleComplete } from '../stores/task.store';
 	import { categoryState, priorityState, statusState } from '$lib/helpers';
 	import TaskItem from './TaskItem.svelte';
+	import { searchQuery, useDebounced } from '../stores/search.store';
+	import { derived } from 'svelte/store';
+	import { fade, crossfade, fly } from 'svelte/transition';
 
 	let {
 		data,
@@ -14,19 +17,29 @@
 		data: Task[];
 		title: string;
 	} = $props();
+
+	const debouncedValue = useDebounced(searchQuery, 400);
+
+	const filteredData = $derived(() => {
+		const query = $debouncedValue;
+
+		return data.filter(
+			(item) =>
+				item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)
+		);
+	});
 </script>
 
 <div class=" rounded-[14px] p-3 w-full h-full bg-gray-200 dark:bg-gray-800 shadow-2xl">
 	<div class="my-4 dark:text-white text-sm">
-		<p class="">{title} ({data.length})</p>
-
-
+		<p class="">{title} ({filteredData().length})</p>
 	</div>
 
 	<div class=" rounded-2xl p-2">
 		<div class="flex flex-col gap-y-3">
-			{#each data as data (data.id)}
+			{#each filteredData() as data (data.id)}
 				<div
+					transition:fly={{ delay: 100, duration: 300 }}
 					class="flex items-center justify-between rounded-md dark:bg-slate-600 bg-white p-2 hover:scale-95 transition-transform duration-300 ease-in-out"
 				>
 					<div class="flex gap-y-2 items-center space-x-3">

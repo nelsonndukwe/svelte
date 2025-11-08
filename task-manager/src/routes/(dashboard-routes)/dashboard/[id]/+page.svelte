@@ -7,16 +7,11 @@
 	import { derived, writable } from 'svelte/store';
 	import { Search } from 'lucide-svelte';
 	import ManageTask from '../../../../components/ManageTask.svelte';
+	import { searchQuery, useDebounced } from '../../../../stores/search.store';
 
 	const user = getCurrentUser();
 	let { data }: PageProps = $props();
-	const query = writable('');
 
-	const filteredUsers = derived([sortedTasks, query], ([$tasks, $query]) => {
-		if (!$query.trim()) return $tasks;
-
-		const q = $query.toLowerCase();
-	});
 
 </script>
 
@@ -30,8 +25,8 @@
 			<input
 				type="text"
 				placeholder="Search users..."
-				value={$query}
-				oninput={(e) => query.set((e.target as HTMLInputElement).value)}
+				value={$searchQuery}
+				oninput={(e) => searchQuery.set((e.target as HTMLInputElement).value)}
 				class="rounded-2xl border dark:bg-gray-900 dark:text-white border-gray-300 bg-gray-50 py-2 pr-3 pl-8 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 md:w-96"
 			/>
 			<Search class="absolute top-2.5 left-2 size-4 text-gray-400" />
