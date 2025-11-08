@@ -1,31 +1,59 @@
 <script lang="ts">
 	import { Calendar } from 'bits-ui';
 
-	import { getLocalTimeZone, today } from '@internationalized/date';
+	import { CalendarDate, getLocalTimeZone, today, type DateValue } from '@internationalized/date';
 	import { MoveLeft, MoveRight } from 'lucide-svelte';
+	import { onMount } from 'svelte';
 
+	let { currentDate, setValue }: { currentDate?: Date; setValue: (value: DateValue) => void } =
+		$props();
 	let value = $state(today(getLocalTimeZone()));
+
+	const getyear = currentDate instanceof Date
+
+	console.log(`dueDate`, {getyear,currentDate});	$effect(() => {
+        if (!currentDate) return;
+
+// 🧠 Convert ISO string → native Date
+const parsed = new Date(currentDate);
+
+// Guard against invalid date strings
+if (isNaN(parsed.getTime())) {
+    console.warn('Invalid date string passed to Calendar:', currentDate);
+    return;
+}
+
+const newValue = new CalendarDate(
+    parsed.getFullYear(),
+    parsed.getMonth() + 1, // JS months are 0-based
+    parsed.getDate()       // Correct day of month
+);
+
+value = newValue
+
+	});
 </script>
 
 <Calendar.Root
-	class="border-dark-10 bg-background-alt shadow-card mt-6 rounded-[15px] border p-[22px]"
+	class="border-dark-10 bg-background-alt shadow-card mt-2 rounded-[15px] border p-[10px]"
 	weekdayFormat="short"
 	fixedWeeks={true}
 	type="single"
 	bind:value
+	onValueChange={(date) => date && setValue(date)}
 >
 	{#snippet children({ months, weekdays })}
 		<Calendar.Header class="flex items-center justify-between">
 			<Calendar.PrevButton
-				class="rounded-9px bg-background-alt hover:bg-muted inline-flex size-10 items-center justify-center active:scale-[0.98] active:transition-all"
+				class="rounded-9px dark:text-white bg-background-alt hover:bg-muted inline-flex size-10 items-center justify-center active:scale-[0.98] active:transition-all"
 			>
-				<MoveLeft class="size-6" />
+				<MoveLeft class="size-6 dark:text-white" />
 			</Calendar.PrevButton>
-			<Calendar.Heading class="text-[15px] font-medium" />
+			<Calendar.Heading class="text-[15px] dark:text-white font-medium" />
 			<Calendar.NextButton
-				class="rounded-9px bg-background-alt hover:bg-muted inline-flex size-10 items-center justify-center active:scale-[0.98] active:transition-all"
+				class="rounded-9px dark:text-white bg-background-alt hover:bg-muted inline-flex size-10 items-center justify-center active:scale-[0.98] active:transition-all"
 			>
-				<MoveRight class="size-6" />
+				<MoveRight class="size-6 dark:text-white" />
 			</Calendar.NextButton>
 		</Calendar.Header>
 		<div class="flex flex-col space-y-4 pt-4 sm:flex-row sm:space-x-4 sm:space-y-0">

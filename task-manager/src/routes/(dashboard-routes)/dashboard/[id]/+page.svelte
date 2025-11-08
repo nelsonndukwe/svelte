@@ -24,7 +24,7 @@
 		<div class="relative items-center my-2">
 			<input
 				type="text"
-				placeholder="Search users..."
+				placeholder="Search Tasks..."
 				value={$searchQuery}
 				oninput={(e) => searchQuery.set((e.target as HTMLInputElement).value)}
 				class="rounded-2xl border dark:bg-gray-900 dark:text-white border-gray-300 bg-gray-50 py-2 pr-3 pl-8 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 md:w-96"

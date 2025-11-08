@@ -1,14 +1,11 @@
 <script lang="ts">
 	import { Dialog, Label, Separator } from 'bits-ui';
-	import Eye from 'lucide-svelte/icons/eye';
-	import EyeOff from 'lucide-svelte/icons/eye-off';
 	import Mail from 'lucide-svelte/icons/mail';
 	import Pencil from 'lucide-svelte/icons/pencil';
 	import Loader from 'lucide-svelte/icons/loader';
 	import X from 'lucide-svelte/icons/x';
 	import ChevronDown from 'lucide-svelte/icons/chevron-down';
 	import User from 'lucide-svelte/icons/user';
-	import { createUser, editUser } from '../stores/user.store.js';
 	import {
 		categoryOptions,
 		priorityOptions,
@@ -16,12 +13,13 @@
 		type Category,
 		type Priority,
 		type Status,
-		type Task,
-		type users
+		type Task
 	} from '../database/index.js';
 	import { onMount, type Snippet } from 'svelte';
 	import { Heading } from 'lucide-svelte';
 	import { createTask, editTask } from '../stores/task.store.js';
+	import Calender from './Calender.svelte';
+	import { getLocalTimeZone } from '@internationalized/date';
 
 	let {
 		label,
@@ -72,6 +70,7 @@
 		isOpen = false;
 	}
 
+
 	function handleChange(event: Event, type: 'status' | 'priority' | 'category') {
 		if (type === 'status') {
 			const target = event.target as HTMLSelectElement;
@@ -116,7 +115,7 @@
 		/>
 
 		<Dialog.Content
-			class="fixed top-[50%] left-[50%] z-50 w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] rounded-card-lg border bg-background p-5 shadow-popover outline-hidden data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-[490px] md:w-full"
+			class="fixed h-full overflow-auto scrollbar-hide top-[50%] left-[50%] z-50 w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] rounded-card-lg border bg-background p-5 shadow-popover outline-hidden data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-[490px] md:w-full"
 		>
 			<Dialog.Title
 				class="flex w-full items-center justify-center text-lg font-semibold tracking-tight dark:text-accent"
@@ -215,6 +214,11 @@
 					<ChevronDown
 						class="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-gray-500 transition-transform duration-200 peer-focus:rotate-180"
 					/>
+				</div>
+
+				<div class="">
+					<p class="dark:text-white md:text-sm text-xs">Due Date</p>
+					<Calender currentDate={task?.dueDate} setValue={(selectedDate) => (dueDate = selectedDate.toDate(getLocalTimeZone()))} />
 				</div>
 				<button
 					type="submit"

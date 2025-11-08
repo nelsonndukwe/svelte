@@ -23,6 +23,10 @@
 	const filteredData = $derived(() => {
 		const query = $debouncedValue;
 
+		if (!query || query.length < 3) {
+			return data;
+		}
+
 		return data.filter(
 			(item) =>
 				item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)
