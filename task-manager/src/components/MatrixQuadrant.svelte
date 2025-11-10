@@ -63,7 +63,7 @@
 		<div class="flex flex-col gap-y-3">
 			{#each filteredData() as data (data.id)}
 				<div
-					transition:fly={{ delay: 100, duration: 300 }}
+					transition:fade={{ delay: 100, duration: 300 }}
 					class="flex items-center justify-between rounded-md dark:bg-slate-600 bg-white p-2 hover:scale-95 transition-transform duration-300 ease-in-out"
 				>
 					<div class="flex gap-y-2 items-center space-x-3">
