@@ -7,8 +7,7 @@
 	import { categoryState, priorityState, statusState } from '$lib/helpers';
 	import TaskItem from './TaskItem.svelte';
 	import { searchQuery, useDebounced } from '../stores/search.store';
-	import { derived } from 'svelte/store';
-	import { fade, crossfade, fly } from 'svelte/transition';
+	import { fade, fly, scale } from 'svelte/transition';
 
 	let {
 		data,
@@ -52,75 +51,73 @@
 		<p class="">{Math.round(calcCompetedPercentage())}% complete</p>
 	</div>
 
-	<div class=" rounded-2xl p-2 relative">
+	<div
+		in:fly={{ y: 20, duration: 500, delay: 50 }}
+		out:fade={{ duration: 500 }}
+		class="rounded-2xl p-2 relative"
+	>
 		{#if filteredData().length === 0}
-
-		<div class="text-center min-h-full dark:text-white">
-			No task found 
-		</div>
-
+			<div class="text-center min-h-full dark:text-white">No task found</div>
 		{:else}
-		<div class="flex flex-col gap-y-3">
-			{#each filteredData() as data (data.id)}
-				<div
-					transition:fade={{ delay: 100, duration: 300 }}
-					class="flex items-center justify-between rounded-md dark:bg-slate-600 bg-white p-2 hover:scale-95 transition-transform duration-300 ease-in-out"
-				>
-					<div class="flex gap-y-2 items-center space-x-3">
-						<Checkbox.Root
-							checked={data.isComplete}
-							onCheckedChange={() => toggleComplete(data.id)}
-							id={data.id}
-							aria-labelledby="terms-label"
-							class="border-mute dark:bg-gray-900 bg-foreground data-[state=unchecked]:border-border-input data-[state=unchecked]:bg-background data-[state=unchecked]:hover:border-dark-40 peer inline-flex size-[18px] items-center justify-center rounded-md border transition-all duration-150 ease-in-out active:scale-[0.98]"
-							name={data.title}
-							indeterminate={false}
-						>
-							{#snippet children({ checked, indeterminate })}
-								<div class="text-background inline-flex items-center justify-center">
-									{#if indeterminate}
-										<Minus class="size-[15px]" />
-									{:else if checked}
-										<Check class="size-[15px] dark:text-white" />
-									{/if}
-								</div>
-							{/snippet}
-						</Checkbox.Root>
-						<Label.Root
-							id="terms-label"
-							for="terms"
-							class="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-						>
-							<TaskItem label={data.title} title={'Task description'} task={data} />
-						</Label.Root>
-					</div>
+			<div class="flex flex-col gap-y-3">
+				{#each filteredData() as data (data.id)}
+					<div
+						in:fly={{ y: 20, duration: 300, delay: 50 }}
+						out:fade={{ duration: 250 }}
+						class="flex items-center justify-between rounded-md dark:bg-slate-600 bg-white p-2 hover:scale-95 transition-transform duration-300 ease-in-out"
+					>
+						<div class="flex gap-y-2 items-center space-x-3">
+							<Checkbox.Root
+								checked={data.isComplete}
+								onCheckedChange={() => toggleComplete(data.id)}
+								id={data.id}
+								aria-labelledby="terms-label"
+								class="border-mute dark:bg-gray-900 bg-foreground data-[state=unchecked]:border-border-input data-[state=unchecked]:bg-background data-[state=unchecked]:hover:border-dark-40 peer inline-flex size-[18px] items-center justify-center rounded-md border transition-all duration-150 ease-in-out active:scale-[0.98]"
+								name={data.title}
+								indeterminate={false}
+							>
+								{#snippet children({ checked, indeterminate })}
+									<div class="text-background inline-flex items-center justify-center">
+										{#if indeterminate}
+											<Minus class="size-[15px]" />
+										{:else if checked}
+											<Check class="size-[15px] dark:text-white" />
+										{/if}
+									</div>
+								{/snippet}
+							</Checkbox.Root>
 
-					<div class="flex item-center gap-x-2">
-						<div class="flex gap-x-2 items-center text-xs">
-							{#if data.status}
-								<p class="">{statusState[data.status]}</p>
-							{/if}
-
-							{#if data.priority}
-								<p class="">{priorityState[data.priority]}</p>
-							{/if}
-							{#if data.category}
-								<p class="">{categoryState[data.category]}</p>
-							{/if}
+							<Label.Root
+								id="terms-label"
+								for="terms"
+								class="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+							>
+								<TaskItem label={data.title} title={'Task description'} task={data} />
+							</Label.Root>
 						</div>
 
-						<p class="text-black text-xs">
-							<span class="text-xs text-black font-medium">Due:{' '}</span>{format(
-								data.dueDate,
-								'do-MMM-yy'
-							)}
-						</p>
-					</div>
-				</div>
-			{/each}
-		</div>
+						<div class="flex item-center gap-x-2">
+							<div class="flex gap-x-2 items-center text-xs">
+								{#if data.status}
+									<p >{statusState[data.status]}</p>
+								{/if}
 
+								{#if data.priority}
+									<p>{priorityState[data.priority]}</p>
+								{/if}
+								{#if data.category}
+									<p>{categoryState[data.category]}</p>
+								{/if}
+							</div>
+
+							<p class="text-black text-xs">
+								<span class="text-xs text-black font-medium">Due: </span>
+								{format(data.dueDate, 'do-MMM-yy')}
+							</p>
+						</div>
+					</div>
+				{/each}
+			</div>
 		{/if}
-		
 	</div>
 </div>
