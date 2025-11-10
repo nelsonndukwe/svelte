@@ -1,5 +1,5 @@
 import { derived, writable } from 'svelte/store';
-import { tasks, type Category, type Priority, type Status } from '../database/index.js';
+import { tasks, type Category, type Priority, type Status, type Task } from '../database/index.js';
 import { useId } from 'bits-ui';
 import { categorizeAndSortTasks } from '$lib/helpers.js';
 
@@ -77,7 +77,6 @@ export const createTask = async (data: {
 	status: Status;
 	dueDate: Date;
 }) => {
-	console.log(`data`, data);
 	let task = null;
 	await new Promise((resolve) => setTimeout(resolve, 3000));
 	taskStore.update((tasks) => {
@@ -118,6 +117,7 @@ export const toggleComplete = (id: string) => {
 				return {
 					...task,
 					isComplete: !task.isComplete,
+					status: !task.isComplete ? 'completed' : 'ongoing' as Status,
 					updatedAt: new Date()
 				};
 			}
@@ -126,4 +126,20 @@ export const toggleComplete = (id: string) => {
 
 		return updatedTasks;
 	});
+};
+
+export const getTask = (id: string) => {
+	let singleTask: Task | null = null;
+
+	taskStore.update((tasks) => {
+		const task = tasks.find((task) => String(task.id) === id);
+
+		if (!task) {
+			return tasks;
+		}
+
+		singleTask = task;
+		return tasks;
+	});
+	return singleTask;
 };

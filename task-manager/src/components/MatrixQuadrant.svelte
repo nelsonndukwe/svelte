@@ -17,7 +17,6 @@
 		data: Task[];
 		title: string;
 	} = $props();
-
 	const debouncedValue = useDebounced(searchQuery, 400);
 
 	const filteredData = $derived(() => {
@@ -32,14 +31,35 @@
 				item.title.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)
 		);
 	});
+
+	const calcCompetedPercentage = () => {
+		const completedTasks = filteredData().filter((task) => task.isComplete);
+
+		const percentage = (completedTasks.length / filteredData().length) * 100;
+
+		if (isNaN(percentage)) {
+			return 0;
+		}
+
+		return percentage;
+	};
 </script>
 
 <div class=" rounded-[14px] p-3 w-full h-full bg-gray-200 dark:bg-gray-800 shadow-2xl">
-	<div class="my-4 dark:text-white text-sm">
+	<div class="my-4 dark:text-white text-sm flex items-center justify-between">
 		<p class="">{title} ({filteredData().length})</p>
+
+		<p class="">{Math.round(calcCompetedPercentage())}% complete</p>
 	</div>
 
-	<div class=" rounded-2xl p-2">
+	<div class=" rounded-2xl p-2 relative">
+		{#if filteredData().length === 0}
+
+		<div class="text-center min-h-full dark:text-white">
+			No task found 
+		</div>
+
+		{:else}
 		<div class="flex flex-col gap-y-3">
 			{#each filteredData() as data (data.id)}
 				<div
@@ -99,5 +119,8 @@
 				</div>
 			{/each}
 		</div>
+
+		{/if}
+		
 	</div>
 </div>

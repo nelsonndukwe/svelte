@@ -17,7 +17,6 @@
 // 🧠 Convert ISO string → native Date
 const parsed = new Date(currentDate);
 
-// Guard against invalid date strings
 if (isNaN(parsed.getTime())) {
     console.warn('Invalid date string passed to Calendar:', currentDate);
     return;
@@ -25,8 +24,8 @@ if (isNaN(parsed.getTime())) {
 
 const newValue = new CalendarDate(
     parsed.getFullYear(),
-    parsed.getMonth() + 1, // JS months are 0-based
-    parsed.getDate()       // Correct day of month
+    parsed.getMonth() + 1, 
+    parsed.getDate()     
 );
 
 value = newValue

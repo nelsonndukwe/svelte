@@ -15,7 +15,7 @@
 
 </script>
 
-<div class="p-4 w-full h-full dark:bg-gray-900">
+<div class="p-4 w-full h-full">
 	<Header title={`Welcome Back, ${user?.name}`} content="Organize, Plan and Execute" />
 
 	<div class="mb-4 flex justify-between w-full items-center rounded-md p-1">

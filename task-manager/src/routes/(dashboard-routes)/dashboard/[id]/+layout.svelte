@@ -6,7 +6,7 @@
 	let { data, children }: LayoutProps = $props();
 </script>
 
-<div class="dark:bg-gray-900">
+<div class="dark:bg-gray-900  min-h-screen ">
 	<Navbar />
 	{@render children()}
 </div>

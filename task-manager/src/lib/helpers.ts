@@ -21,7 +21,7 @@ export function isUrgent(task: Task): boolean {
 	const now = Date.now();
 	const due = new Date(task.dueDate).getTime();
 	const hoursUntilDue = (due - now) / (1000 * 60 * 60);
-	return (hoursUntilDue <= 48 && hoursUntilDue >= 0 || hoursUntilDue <= 0) ;
+	return (hoursUntilDue <= 48 && hoursUntilDue >= 0) || hoursUntilDue <= 0;
 }
 
 export function isImportant(task: Task): boolean {
@@ -48,14 +48,10 @@ export function computeTaskSortScore(task: Task): number {
 	let dueScore = 0;
 
 	if (hoursUntilDue <= 0) {
-		// Overdue → maximum urgency
 		dueScore = 10;
 	} else if (hoursUntilDue <= 48) {
-		// Within next 48 hours — scale inversely:
-		// due in 0h → 10 points, due in 48h → near 0
 		dueScore = Math.max(0, ((48 - hoursUntilDue) / 48) * 10);
 	} else {
-		// More than 48h away — very low urgency
 		dueScore = 0;
 	}
 

@@ -16,6 +16,7 @@
 	import ConfirmModal from './ConfirmModal.svelte';
 	import { deleteTasks } from '../stores/task.store.js';
 	import ManageTask from './ManageTask.svelte';
+	import { getCurrentUser } from '../stores/auth.store.js';
 
 	let {
 		title,
@@ -29,7 +30,7 @@
 
 	let isOpen = $state(false);
 	let loading = $state(false);
-
+	const user = getCurrentUser();
 	async function handleDelete(id: string) {
 		loading = true;
 		await new Promise((resolve) => setTimeout(resolve, 500));
@@ -78,8 +79,11 @@
 			</div>
 
 			<div class="self-end flex gap-x-2 items-center my-2">
+				<a href={`/dashboard/${user?.id}/task/${task.id}`}>
+					<div class="p-3 bg-orange-100 rounded-lg text-sm">Open Task</div>
+				</a>
 				<div class="p-2 bg-purple-100 rounded-lg">
-					<ManageTask  label="Edit" {task} />
+					<ManageTask label="Edit" {task} />
 				</div>
 				<div class="p-2 bg-red-100 rounded-lg">
 					<ConfirmModal

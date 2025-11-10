@@ -24,14 +24,12 @@
 			return;
 		}
 
-		// ✅ Save the authenticated user
 		authUser.set(String(user.user?.id));
 		responseState = user.message;
 		email = '';
 		password = '';
         loading = false;
 
-		// ✅ Navigate to user dashboard
 		goto(`/dashboard/${user.user?.id}`);
 	}
 </script>

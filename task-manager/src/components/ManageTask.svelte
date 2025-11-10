@@ -59,7 +59,6 @@
 			return;
 		}
 
-		// Fix: Convert string inputs to appropriate enum types for createTask
 		const newTask = await createTask(payload);
 		if (!newTask) {
 			responseState = 'Error creating task';
@@ -68,8 +67,14 @@
 		}
 		loading = false;
 		isOpen = false;
-	}
 
+		title = '';
+		description = '';
+		status = '';
+		priority = '';
+		category = '';
+		dueDate = new Date();
+	}
 
 	function handleChange(event: Event, type: 'status' | 'priority' | 'category') {
 		if (type === 'status') {
@@ -120,7 +125,7 @@
 			<Dialog.Title
 				class="flex w-full items-center justify-center text-lg font-semibold tracking-tight dark:text-accent"
 			>
-				{title}
+				{label}
 			</Dialog.Title>
 			<Separator.Root class="-mx-5 mt-5 mb-6 block h-px bg-muted" />
 			{#if responseState}
@@ -218,7 +223,10 @@
 
 				<div class="">
 					<p class="dark:text-white md:text-sm text-xs">Due Date</p>
-					<Calender currentDate={task?.dueDate} setValue={(selectedDate) => (dueDate = selectedDate.toDate(getLocalTimeZone()))} />
+					<Calender
+						currentDate={task?.dueDate}
+						setValue={(selectedDate) => (dueDate = selectedDate.toDate(getLocalTimeZone()))}
+					/>
 				</div>
 				<button
 					type="submit"

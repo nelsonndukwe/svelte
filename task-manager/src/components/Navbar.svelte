@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Avatar, Popover, Separator } from 'bits-ui';
 	import { getCurrentUser, logout } from '../stores/auth.store';
-	import { LogOut, Moon, Sun } from 'lucide-svelte';
+	import { LogOut, Moon, Settings, Sun } from 'lucide-svelte';
 	import { userPreferenceState } from '../stores/pref.store.js';
 	import { goto } from '$app/navigation';
 
@@ -43,10 +43,6 @@
 						</div>
 					</Avatar.Root>
 
-					<!-- <div class={`block space-y-1 text-sm font-normal`}>
-					<p class="font-semibold">{user?.name}</p>
-					<p class="text-start text-xs capitalize">{user?.role}</p>
-				</div> -->
 				</div>
 			</Popover.Trigger>
 			<Popover.Portal>
@@ -77,6 +73,18 @@
 						</p>
 					</button>
 					<Separator.Root class="my-2 block h-px bg-dark-10" />
+					<a >
+
+					<button
+						onclick={handleLogout}
+						class="flex cursor-pointer flex-row items-center gap-x-2 text-xs"
+					>
+						<Settings  class="size-4 " />
+						<p class="">Settings</p>
+					</button>
+				</a>
+					<Separator.Root class="my-2 block h-px bg-dark-10" />
+
 					<button
 						onclick={handleLogout}
 						class="flex cursor-pointer flex-row items-center gap-x-2 text-xs hover:text-red-600"
