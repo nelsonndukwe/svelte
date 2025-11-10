@@ -74,7 +74,6 @@
 					</button>
 					<Separator.Root class="my-2 block h-px bg-dark-10" />
 					<a >
-
 					<button
 						onclick={handleLogout}
 						class="flex cursor-pointer flex-row items-center gap-x-2 text-xs"
