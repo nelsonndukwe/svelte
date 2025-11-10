@@ -52,7 +52,7 @@
 	</div>
 
 	<div
-		in:fly={{ y: 20, duration: 500, delay: 50 }}
+		in:fly={{ y: 20, duration: 1000, delay: 50 }}
 		out:fade={{ duration: 500 }}
 		class="rounded-2xl p-2 relative"
 	>
